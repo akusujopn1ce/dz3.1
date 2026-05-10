@@ -3,37 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Data Types</title>
 </head>
 <body>
-    <h1>Перевірте консоль (F12)</h1>
-
     <script>
-        const age = 25;
-        console.log("1. Number:", typeof age);
+        const firstLine = prompt("Введіть перший рядок:");
+        const secondLine = prompt("Введіть другий рядок:");
+        const thirdLine = prompt("Введіть третій рядок:");
 
-        const name = "Dmytro";
-        console.log("2. String:", typeof name);
-
-        const isStudent = true;
-        console.log("3. Boolean:", typeof isStudent);
-
-        let x;
-        console.log("4. Undefined:", typeof x);
-
-        const salary = null;
-        console.log("5. Null (quirk):", typeof salary);
-
-        const bigNumber = 100n;
-        console.log("6. BigInt:", typeof bigNumber);
-
-        const id = Symbol("id");
-        console.log("7. Symbol:", typeof id);
-
-        const user = { name: "Dmytro" };
-        const colors = ["red", "green"]; 
-        console.log("8. Object (Об'єкт):", typeof user);
-        console.log("8. Object (Масив):", typeof colors);
+        console.log(`Ви ввели такі рядки: "${thirdLine}", "${firstLine}", "${secondLine}"`);
+        
+        alert(`Ваші рядки у змішаному порядку:\n1. ${secondLine}\n2. ${thirdLine}\n3. ${firstLine}`);
     </script>
 </body>
 </html>
