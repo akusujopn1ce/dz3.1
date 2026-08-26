@@ -7,13 +7,22 @@
 </head>
   <body>
     <script>
-      let rate = 26; 
-      for (let dollars = 10; dollars <= 100; dollars += 10) {
-      let uah = dollars * rate; 
-  
-        console.log(`${dollars} доларів = ${uah} гривень`);
+      let N = parseInt(prompt("Введіть ціле число N:"));
 
-       // document.write(`${dollars} доларів = ${uah} гривень <br>`);
+      if (!isNaN(N)) {
+        document.write(`Числа від 1 до 100, квадрат яких не перевищує ${N}: <br><br>`);
+  
+        for (let i = 1; i <= 100; i++) {
+    
+          if (i * i <= N) {
+            document.write(i + " "); 
+          } else {
+           break; 
+          }
+    
+       }
+      } else {
+       document.write("Ви не ввели коректне число.");
       }
     </script>
   </body>
