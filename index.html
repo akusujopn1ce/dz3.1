@@ -7,24 +7,14 @@
 </head>
   <body>
     <script>
-      const user = {
-        firstName: "Игорь",
-        lastName: "Гофман",
-        age: 62,
-        location: "Херсон",
-        profession: "Frontend-розробник",
-        hobbies: ["Гра на гітарі", "Dota 2", "Minecraft"],
+      const numbers = [15, 2, 8, 43, 10, 7, 24];
 
-        displayInfo: function() {
-          document.write(`Привіт! Мене звати ${this.firstName} ${this.lastName}. <br><br>`);
-          document.write(`Мені ${this.age} років, зараз я знаходжусь у місті ${this.location}. <br><br>`);
-          document.write(`Моя професія — ${this.profession}. <br><br>`);
-          
-          document.write(`Мої захоплення: ${this.hobbies.join(", ")}. <br>`);
-        }
-      };
+      const evenNumbers = numbers.filter(function(number) {
+        return number % 2 === 0; 
+      });
 
-      user.displayInfo();
+      document.write(`Оригінальний масив: ${numbers.join(", ")} <br>`);
+      document.write(`Новий масив з парними числами: ${evenNumbers.join(", ")}`);
     </script>
   </body> 
 </html>
