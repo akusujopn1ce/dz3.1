@@ -7,12 +7,14 @@
 </head>
   <body>
     <script>
-    let result = [];
-      for (let i = 20; i <= 30; i += 0.5) {
-      let formattedNumber = i.toString().replace(".", ",");
-      result.push(formattedNumber);
-    }
-    console.log(result.join(" "));
+      let rate = 26; 
+      for (let dollars = 10; dollars <= 100; dollars += 10) {
+      let uah = dollars * rate; 
+  
+        console.log(`${dollars} доларів = ${uah} гривень`);
+
+       // document.write(`${dollars} доларів = ${uah} гривень <br>`);
+      }
     </script>
   </body>
 </html>
