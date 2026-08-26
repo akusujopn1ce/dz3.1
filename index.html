@@ -1,39 +1,18 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Data Types</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-<body>
-    <h1>Перевірте консоль (F12)</h1>
-
+  <body>
     <script>
-        const age = 25;
-        console.log("1. Number:", typeof age);
-
-        const name = "Dmytro";
-        console.log("2. String:", typeof name);
-
-        const isStudent = true;
-        console.log("3. Boolean:", typeof isStudent);
-
-        let x;
-        console.log("4. Undefined:", typeof x);
-
-        const salary = null;
-        console.log("5. Null (quirk):", typeof salary);
-
-        const bigNumber = 100n;
-        console.log("6. BigInt:", typeof bigNumber);
-
-        const id = Symbol("id");
-        console.log("7. Symbol:", typeof id);
-
-        const user = { name: "Dmytro" };
-        const colors = ["red", "green"]; 
-        console.log("8. Object (Об'єкт):", typeof user);
-        console.log("8. Object (Масив):", typeof colors);
+    let result = [];
+      for (let i = 20; i <= 30; i += 0.5) {
+      let formattedNumber = i.toString().replace(".", ",");
+      result.push(formattedNumber);
+    }
+    console.log(result.join(" "));
     </script>
-</body>
+  </body>
 </html>
