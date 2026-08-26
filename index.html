@@ -7,34 +7,24 @@
 </head>
   <body>
     <script>
-      let number = parseInt(prompt("Введіть ціле число:"));
+      const user = {
+        firstName: "Игорь",
+        lastName: "Гофман",
+        age: 62,
+        location: "Херсон",
+        profession: "Frontend-розробник",
+        hobbies: ["Гра на гітарі", "Dota 2", "Minecraft"],
 
-        if (!isNaN(number)) {
+        displayInfo: function() {
+          document.write(`Привіт! Мене звати ${this.firstName} ${this.lastName}. <br><br>`);
+          document.write(`Мені ${this.age} років, зараз я знаходжусь у місті ${this.location}. <br><br>`);
+          document.write(`Моя професія — ${this.profession}. <br><br>`);
           
-          let isPrime = true;
-
-          if (number <= 1) {
-            isPrime = false;
-          } else {
-            for (let i = 2; i < number; i++) {
-              
-              if (number % i === 0) {
-                isPrime = false; 
-                break;           
-              }
-      
-            }
-          }
-
-          if (isPrime) {
-            document.write(`Число ${number} є простим.`);
-          } else {
-            document.write(`Число ${number} НЕ є простим.`);
-          }
-
-        } else {
-          document.write("Ви не ввели коректне число.");
+          document.write(`Мої захоплення: ${this.hobbies.join(", ")}. <br>`);
         }
+      };
+
+      user.displayInfo();
     </script>
-  </body>
+  </body> 
 </html>
