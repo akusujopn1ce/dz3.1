@@ -7,14 +7,35 @@
 </head>
   <body>
     <script>
-      const numbers = [15, 2, 8, 43, 10, 7, 24];
+      const contactBook = {
+        contacts: [
+          { name: "Олександр", phone: "111-222", email: "alex@test.com" },
+          { name: "Марія", phone: "333-444", email: "maria@test.com" }
+        ],
 
-      const evenNumbers = numbers.filter(function(number) {
-        return number % 2 === 0; 
-      });
+        addContact: function(newName, newPhone, newEmail) {
+          const newContact = { 
+            name: newName, 
+            phone: newPhone, 
+            email: newEmail 
+          };
+          this.contacts.push(newContact);
+          console.log("Додано новий контакт:", newName);
+        },
 
-      document.write(`Оригінальний масив: ${numbers.join(", ")} <br>`);
-      document.write(`Новий масив з парними числами: ${evenNumbers.join(", ")}`);
+        findContact: function(searchName) {
+          const found = this.contacts.find(contact => contact.name === searchName);
+          
+          if (found) {
+            console.log("Знайдено контакт:", found);
+          } else {
+            console.log("Контакт не знайдено.");
+          }
+        }
+      };
+
+      contactBook.addContact("Іван", "555-666", "ivan@test.com");  
+      contactBook.findContact("Марія");  
     </script>
-  </body> 
+  </body>
 </html>
