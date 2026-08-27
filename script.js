@@ -1,8 +1,16 @@
-function multiply(a) {
-  return function(b) {
-    return a * b;
-  };
-}
-const result = multiply(5)(2);
+function promptNumber() {
+  let userInput;
 
-alert(`Результат множення: ${result}`);
+  for (let i = 0; i < 10; i++) {
+    userInput = prompt("Введіть число більше 100:", "");
+
+    if (userInput === null) {
+      break;
+    }
+    if (isNaN(userInput) || Number(userInput) > 100) {
+      break; 
+    }
+  }
+  console.log(userInput);
+}
+promptNumber();
