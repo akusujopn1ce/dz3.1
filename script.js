@@ -1,13 +1,8 @@
-const sum = (function() {
-  let total = 0;
-
-  return function(value) {
-    total += value;
-    return total;
+function multiply(a) {
+  return function(b) {
+    return a * b;
   };
-})();
+}
+const result = multiply(5)(2);
 
-console.log(sum(4));  // 4
-console.log(sum(6));  // 10
-console.log(sum(10)); // 20
-console.log(sum(7));  // 27
+alert(`Результат множення: ${result}`);
