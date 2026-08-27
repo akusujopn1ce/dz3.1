@@ -1,13 +1,13 @@
-function removeElement(array, item) {
-  const index = array.indexOf(item);
+const sum = (function() {
+  let total = 0;
 
-  if (index !== -1) {
-    array.splice(index, 1);
-  }
-}
+  return function(value) {
+    total += value;
+    return total;
+  };
+})();
 
-const array = [1, 3, 4, 6, 2, 5, 7];
-
-removeElement(array, 4);
-
-console.log(array);
+console.log(sum(4));  // 4
+console.log(sum(6));  // 10
+console.log(sum(10)); // 20
+console.log(sum(7));  // 27
