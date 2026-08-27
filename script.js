@@ -1,16 +1,20 @@
-function promptNumber() {
-  let userInput;
+let ladder = {
+  step: 0,
 
-  for (let i = 0; i < 10; i++) {
-    userInput = prompt("Введіть число більше 100:", "");
+  up: function () {
+    this.step++;
+    return this;
+  },
 
-    if (userInput === null) {
-      break;
-    }
-    if (isNaN(userInput) || Number(userInput) > 100) {
-      break; 
-    }
+  down: function () {
+    this.step--;
+    return this; 
+  },
+
+  showStep: function () {
+    console.log(this.step); 
+    return this; 
   }
-  console.log(userInput);
-}
-promptNumber();
+};
+
+ladder.up().up().down().showStep();
