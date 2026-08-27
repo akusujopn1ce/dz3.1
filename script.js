@@ -1,20 +1,13 @@
-function removeChars(str, charsToRemove) {
-  return str
-    .split('')
-    .filter(char => !charsToRemove.includes(char))
-    .join('');
+function removeElement(array, item) {
+  const index = array.indexOf(item);
+
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
 }
 
-const userString = prompt("Введіть вихідний рядок:", " hello world");
-const userCharsInput = prompt("Введіть символи для видалення (через кому або пробіл):", "l, d");
+const array = [1, 3, 4, 6, 2, 5, 7];
 
-if (userString !== null && userCharsInput !== null) {
-  const charsArray = userCharsInput.replace(/[, ]+/g, '').split('');
-  
-  const result = removeChars(userString, charsArray);
-  
-  console.log("Оригінальний рядок:", userString);
-  console.log("Символи для видалення:", charsArray);
-  console.log("Результат:", result);
-  alert(`Результат: ${result}`);
-}
+removeElement(array, 4);
+
+console.log(array);
