@@ -1,73 +1,98 @@
-const form = document.querySelector('.js--form');
-const input = document.querySelector('.js--form__input');
-const todosWrapper = document.querySelector('.js--todos-wrapper');
-
-let tasks = JSON.parse(localStorage.getItem('todo-tasks')) || [];
-
-function saveToLocalStorage() {
-    localStorage.setItem('todo-tasks', JSON.stringify(tasks));
-}
-
-function renderTasks() {
-    todosWrapper.innerHTML = '';
-
-    tasks.forEach(task => {
-        const cssClass = task.completed ? 'todo-item todo-item--checked' : 'todo-item';
-        
-        const taskHTML = `
-            <li class="${cssClass}" data-id="${task.id}">
-                <input type="checkbox" class="js--check" ${task.completed ? 'checked' : ''}>
-                <span class="todo-item__description">${task.text}</span>
-                <button class="todo-item__delete js--delete">Видалити</button>
-            </li>
-        `;
-        
-        todosWrapper.insertAdjacentHTML('beforeend', taskHTML);
-    });
-}
-
-function addTask(event) {
-    event.preventDefault(); 
-    
-    const taskText = input.value.trim();
-    if (taskText === '') return;
-
-    const newTask = {
-        id: Date.now(), 
-        text: taskText,
-        completed: false
-    };
-
-    tasks.push(newTask); 
-    saveToLocalStorage(); 
-    renderTasks(); 
-    
-    input.value = ''; 
-    input.focus();
-}
-
-function handleTaskAction(event) {
-    const parentNode = event.target.closest('.todo-item');
-    if (!parentNode) return;
-    
-    const taskId = Number(parentNode.dataset.id);
-
-    if (event.target.classList.contains('js--delete')) {
-        tasks = tasks.filter(task => task.id !== taskId);
+class Student {
+    constructor(firstName, lastName, birthYear, grades = []) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthYear = birthYear;
+        this.grades = grades;
+        this.attendance = new Array(25);
+        this.attendanceIndex = 0; 
     }
 
-    if (event.target.classList.contains('js--check')) {
-        const task = tasks.find(task => task.id === taskId);
-        if (task) {
-            task.completed = !task.completed;
+    getAge() {
+        return new Date().getFullYear() - this.birthYear;
+    }
+
+    getAverageGrade() {
+        if (this.grades.length === 0) return 0;
+        const sum = this.grades.reduce((acc, grade) => acc + grade, 0);
+        return sum / this.grades.length;
+    }
+
+    present() {
+        if (this.attendanceIndex < 25) {
+            this.attendance[this.attendanceIndex] = true;
+            this.attendanceIndex++;
         }
     }
 
-    saveToLocalStorage(); 
-    renderTasks(); 
+    absent() {
+        if (this.attendanceIndex < 25) {
+            this.attendance[this.attendanceIndex] = false;
+            this.attendanceIndex++;
+        }
+    }
+
+    getAverageAttendance() {
+        if (this.attendanceIndex === 0) return 0;
+        let presentCount = 0;
+        for (let i = 0; i < this.attendanceIndex; i++) {
+            if (this.attendance[i] === true) presentCount++;
+        }
+        return presentCount / this.attendanceIndex;
+    }
+
+    summary() {
+        const avgGrade = this.getAverageGrade();
+        const avgAttendance = this.getAverageAttendance();
+
+        if (this.attendanceIndex === 0) return "Немає даних";
+
+        if (avgGrade > 90 && avgAttendance > 0.9) {
+            return "Молодець!";
+        } else if (avgGrade < 90 && avgAttendance < 0.9) {
+            return "Редиска!";
+        } else {
+            return "Добре, але можна краще";
+        }
+    }
 }
 
-form.addEventListener('submit', addTask);
-todosWrapper.addEventListener('click', handleTaskAction);
+const student1 = new Student("Іван", "Шевченко", 2005, [95, 92, 100, 98]);
+for (let i = 0; i < 20; i++) student1.present(); 
 
-renderTasks();
+const student2 = new Student("Марія", "Коваленко", 2004, [91, 95, 99]);
+for (let i = 0; i < 10; i++) student2.present();
+for (let i = 0; i < 5; i++) student2.absent(); 
+
+const student3 = new Student("Олег", "Петренко", 2006, [60, 75, 55, 70]);
+for (let i = 0; i < 5; i++) student3.present();
+for (let i = 0; i < 15; i++) student3.absent(); 
+
+const students = [student1, student2, student3];
+
+const container = document.getElementById('students-container');
+
+students.forEach(student => {
+    const summaryText = student.summary();
+    
+    let cardClass = 'average';
+    if (summaryText === "Молодець!") cardClass = 'excellent';
+    if (summaryText === "Редиска!") cardClass = 'bad';
+
+    const attendancePercent = Math.round(student.getAverageAttendance() * 100);
+
+    const card = document.createElement('div');
+    card.className = `student-card ${cardClass}`;
+    
+    card.innerHTML = `
+        <div class="student-name">${student.firstName} ${student.lastName}</div>
+        <div class="student-info">
+            <p><strong>Вік:</strong> ${student.getAge()} років</p>
+            <p><strong>Середній бал:</strong> ${student.getAverageGrade().toFixed(1)}</p>
+            <p><strong>Відвідуваність:</strong> ${attendancePercent}% (занять: ${student.attendanceIndex})</p>
+        </div>
+        <div class="summary-badge">${summaryText}</div>
+    `;
+    
+    container.appendChild(card);
+});

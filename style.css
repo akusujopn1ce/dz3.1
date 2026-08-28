@@ -1,69 +1,62 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    line-height: 1.2;
-    font-size: 18px;
-    background-color: #66deb2;
-}
-
-h1, h2 {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.container {
-    width: 100%;
-    margin: 0 auto;
-    max-width: 75%;
-}
-
-.form {
-    background: #fff;
-    padding: 10px;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
 }
 
-.form__input {
-    min-height: 25px;
-    padding: 10px;
+.container {
+    max-width: 1000px;
     width: 100%;
-    border: 1px solid;
 }
 
-.form__btn {
-    background: #0be69d;
-    border: none;
-    cursor: pointer;
-    width: 100px;
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
 }
 
-.todo-item {
-    display: flex;
-    padding: 10px;
-    background: #fff;
-    border-radius: 10px;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
 }
-.todo-item--checked {
-    text-decoration: line-through;
+
+.student-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-top: 5px solid #3498db; 
 }
-.todo-item__description {
-    flex-grow: 1;
-    padding-left: 10px;
+
+.student-card.excellent { border-top-color: #2ecc71; } 
+.student-card.bad { border-top-color: #e74c3c; } 
+.student-card.average { border-top-color: #f1c40f; } 
+.student-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
-.todo-item__delete {
-    background: #0be69d;
-    border: none;
-    cursor: pointer;
-    width: 95px;
-    padding: 10px;
+
+.student-info p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 16px;
 }
+
+.summary-badge {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.excellent .summary-badge { background-color: #d5f5e3; color: #1e8449; }
+.average .summary-badge { background-color: #fcf3cf; color: #b9770e; }
+.bad .summary-badge { background-color: #fadbd8; color: #b03a2e; }
