@@ -3,36 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список завдань (To-Do List)</title>
+    <title>Форма зворотного зв'язку</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="todo-app">
-        <h2>Мій список завдань</h2>
+    <div class="contact-form">
+        <h2 class="form-title">We would like to help you</h2>
         
-        <!-- Список завдань (ul) -->
-        <ul id="task-list">
-            <!-- Початкові завдання -->
-            <li>
-                <span>Завдання 1</span> 
-                <button class="delete-btn">Видалити</button>
-            </li>
-            <li>
-                <span>Завдання 2</span> 
-                <button class="delete-btn">Видалити</button>
-            </li>
-            <li>
-                <span>Завдання 3</span> 
-                <button class="delete-btn">Видалити</button>
-            </li>
-        </ul>
+        <form id="help-form">
+            <!-- Поле: Name -->
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Name">
+                <span class="error-msg" id="error-name">Ім'я є обов'язковим полем</span>
+            </div>
 
-        <!-- Блок для додавання нових завдань -->
-        <div class="add-task-container">
-            <input type="text" id="task-input" placeholder="Додати нове завдання">
-            <button id="add-btn">Додати</button>
-        </div>
+            <!-- Поле: Message -->
+            <div class="input-group">
+                <textarea id="message" placeholder="Message"></textarea>
+                <span class="error-msg" id="error-message">Повідомлення має містити щонайменше 5 символів</span>
+            </div>
+            
+            <h3 class="form-subtitle">HOW TO ANSWER YOU?</h3>
+            
+            <!-- Поле: Phone number -->
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="Phone number">
+                <span class="error-msg" id="error-phone">Номер телефону має починатися з +380 та містити 13 символів</span>
+            </div>
+
+            <!-- Поле: Email -->
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email">
+                <span class="error-msg" id="error-email">Email обов'язково повинен мати @ та крапку</span>
+            </div>
+            
+            <button type="submit" id="submit-btn">Send message</button>
+        </form>
     </div>
 
     <script src="script.js"></script>

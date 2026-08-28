@@ -1,52 +1,46 @@
-// 1. Знаходимо необхідні елементи в DOM
-const taskList = document.getElementById('task-list');
-const taskInput = document.getElementById('task-input');
-const addBtn = document.getElementById('add-btn');
+const form = document.getElementById('help-form');
 
-// --- ЧАСТИНА 1: Видалення завдань (Делегування подій) ---
+const regexPatterns = {
+    name: /^(?!\s*$).+/, 
+    message: /^[\s\S]{5,}$/, 
+    phone: /^\+380\d{9}$/, 
+    email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+};
 
-// Вішаємо обробник подій на весь список <ul>
-taskList.addEventListener('click', function(event) {
-    // Перевіряємо, чи клік був саме по кнопці "Видалити"
-    if (event.target.classList.contains('delete-btn')) {
-        // Знаходимо батьківський елемент <li> для цієї кнопки
-        const liToRemove = event.target.parentElement;
-        
-        // Видаляємо елемент <li> з DOM
-        liToRemove.remove();
-    }
-});
+function validateInput(inputId, errorId, regex) {
+    const input = document.getElementById(inputId);
+    const errorMsg = document.getElementById(errorId);
+    const value = input.value.trim(); 
 
-// --- ЧАСТИНА 2: Додавання нових завдань ---
-
-addBtn.addEventListener('click', function() {
-    // Отримуємо текст з інпута та очищаємо його від зайвих пробілів по краях
-    const taskText = taskInput.value.trim();
-
-    // Перевіряємо, чи інпут не порожній
-    if (taskText !== "") {
-        // Створюємо новий елемент <li>
-        const newLi = document.createElement('li');
-
-        // Створюємо <span> для тексту завдання
-        const span = document.createElement('span');
-        span.textContent = taskText;
-
-        // Створюємо кнопку "Видалити"
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = "Видалити";
-        deleteButton.classList.add('delete-btn'); // Додаємо клас, щоб працювало делегування та стилі
-
-        // Складаємо елементи разом (додаємо span та button всередину li)
-        newLi.appendChild(span);
-        newLi.appendChild(deleteButton);
-
-        // Додаємо готовий <li> у наш список <ul>
-        taskList.appendChild(newLi);
-
-        // Очищаємо інпут після додавання
-        taskInput.value = "";
+    if (regex.test(value)) {
+        input.classList.remove('invalid');
+        errorMsg.classList.remove('active');
+        return true;
     } else {
-        alert("Будь ласка, введіть текст завдання.");
+        input.classList.add('invalid');
+        errorMsg.classList.add('active');
+        return false;
+    }
+}
+
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const isNameValid = validateInput('name', 'error-name', regexPatterns.name);
+    const isMessageValid = validateInput('message', 'error-message', regexPatterns.message);
+    const isPhoneValid = validateInput('phone', 'error-phone', regexPatterns.phone);
+    const isEmailValid = validateInput('email', 'error-email', regexPatterns.email);
+
+    if (isNameValid && isMessageValid && isPhoneValid && isEmailValid) {
+        const formData = {
+            name: document.getElementById('name').value.trim(),
+            message: document.getElementById('message').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim()
+        };
+
+        console.log("Дані з форми успішно відправлені:", formData);
+        
+        form.reset();
     }
 });
