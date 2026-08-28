@@ -1,28 +1,10 @@
-const btnEnter = document.getElementById('btn-enter');
-const btnGo = document.getElementById('btn-go');
-const statusText = document.getElementById('status-text');
+const container = document.getElementById('button-container');
 
-let userUrl = "";
-
-btnEnter.addEventListener('click', function() {
-    const input = prompt("Введіть посилання (наприклад, google.com):");
+container.addEventListener('click', function(event) {
     
-    if (input !== null && input.trim() !== "") {
-        userUrl = input.trim();
+    if (event.target.tagName === 'BUTTON') {
+        const buttonName = event.target.textContent;
         
-        if (!userUrl.startsWith('http://') && !userUrl.startsWith('https://')) {
-            userUrl = 'https://' + userUrl;
-        }
-        
-        statusText.textContent = "Посилання збережено. Тепер можна переходити!";
-        statusText.style.color = "green";
-    }
-});
-
-btnGo.addEventListener('click', function() {
-    if (userUrl !== "") {
-        window.location.href = userUrl;
-    } else {
-        alert("Будь ласка, спочатку натисніть 'Ввести посилання'!");
+        alert(`Клікнуто на кнопці: ${buttonName}`);
     }
 });

@@ -1,47 +1,29 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     margin-top: 50px;
-    background-color: #f4f4f9;
 }
 
 .button-group {
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
+    padding: 20px;
+    border: 2px dashed #ccc; 
+    border-radius: 10px;
 }
 
-button {
+.btn {
     padding: 10px 20px;
-    font-size: 16px;
-    border: none;
+    font-size: 20px;
+    color: #0056b3;
+    background-color: #f8f9fa;
+    border: 2px solid #a0a0a0;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
-#btn-enter {
-    background-color: #ff9800;
-    color: white;
-}
-
-#btn-enter:hover {
-    background-color: #e68a00;
-}
-
-#btn-go {
-    background-color: #4CAF50;
-    color: white;
-}
-
-#btn-go:hover {
-    background-color: #45a049;
-}
-
-#status-text {
-    font-size: 16px;
-    color: #555;
-    font-style: italic;
+.btn:hover {
+    background-color: #e2e6ea;
 }
