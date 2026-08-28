@@ -3,24 +3,114 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;  
+    height: 100vh;
     margin: 0;
-    background-color: #ffffff;
+    background-color: #f4f6f9;
 }
 
-.timer-container {
-    text-align: center;
+.weather-widget {
+    background: linear-gradient(to bottom right, #2b4594, #1a2a6c);
+    color: white;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-h1 {
-    font-size: 5rem; 
-    color: #000000;
+.widget-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.current-date {
+    font-size: 28px;
+    font-weight: 300;
     margin-bottom: 20px;
-    letter-spacing: 2px;
 }
 
-#timer-display {
-    font-size: 8rem; 
-    color: #000000;
-    font-weight: 400;
+.current-time-block {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 30px;
+}
+
+.time-big {
+    font-size: 80px;
+    font-weight: 300;
+}
+
+.time-ampm {
+    font-size: 30px;
+    margin-left: 10px;
+    font-weight: 300;
+}
+
+.weather-details {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #d1d8e0;
+}
+
+.widget-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    text-align: right;
+}
+
+#weather-icon {
+    width: 120px;
+    height: 120px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.temp-big {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.feels-like {
+    font-size: 18px;
+    color: #d1d8e0;
+    margin-bottom: 5px;
+}
+
+.description {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+}
+
+.update-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+    color: #d1d8e0;
+}
+
+.refresh-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh-btn:hover {
+    color: #a4b0be;
+}
+
+.spin {
+    transform: rotate(360deg);
 }
