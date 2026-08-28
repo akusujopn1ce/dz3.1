@@ -1,14 +1,28 @@
-const imgElement = document.getElementById('random-img');
-const btnElement = document.getElementById('change-img-btn');
+const btnEnter = document.getElementById('btn-enter');
+const btnGo = document.getElementById('btn-go');
+const statusText = document.getElementById('status-text');
 
-function setRandomImage() {
-    const randomNumber = Math.floor(Math.random() * 9) + 1;
+let userUrl = "";
+
+btnEnter.addEventListener('click', function() {
+    const input = prompt("Введіть посилання (наприклад, google.com):");
     
-    const imageName = randomNumber + '.jpg';
-    
-    imgElement.src = 'images/' + imageName;
-}
+    if (input !== null && input.trim() !== "") {
+        userUrl = input.trim();
+        
+        if (!userUrl.startsWith('http://') && !userUrl.startsWith('https://')) {
+            userUrl = 'https://' + userUrl;
+        }
+        
+        statusText.textContent = "Посилання збережено. Тепер можна переходити!";
+        statusText.style.color = "green";
+    }
+});
 
-setRandomImage();
-
-btnElement.addEventListener('click', setRandomImage);
+btnGo.addEventListener('click', function() {
+    if (userUrl !== "") {
+        window.location.href = userUrl;
+    } else {
+        alert("Будь ласка, спочатку натисніть 'Ввести посилання'!");
+    }
+});

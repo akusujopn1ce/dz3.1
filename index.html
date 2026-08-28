@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Випадкове зображення</title>
-    <!-- Підключаємо стилі -->
+    <title>Переадресація за посиланням</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>Генератор випадкових картинок</h2>
+    <h2>Керування переадресацією</h2>
     
-    <!-- Контейнер для зображення -->
-    <div class="image-container">
-        <!-- Початкове зображення завантажується з папки images -->
-        <img id="random-img" src="images/1.jpg" alt="Випадкове зображення">
+    <div class="button-group">
+        <button id="btn-enter">1. Ввести посилання</button>
+        
+        <button id="btn-go">2. Перейти на сайт</button>
     </div>
 
-    <!-- Кнопка для зміни зображення -->
-    <button id="change-img-btn">Показати інше випадкове зображення</button>
+    <p id="status-text">Посилання ще не введено.</p>
 
-    <!-- Підключаємо скрипт у кінці body -->
     <script src="script.js"></script>
 </body>
 </html>
