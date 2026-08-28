@@ -3,14 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Журнал Студентів</title>
+    <title>ООП Калькулятор</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Результати сесії</h1>
-        <div id="students-container" class="students-grid"></div>
+    <div class="calculator-card">
+        <h2>Міні-калькулятор</h2>
+        
+        <div class="input-group">
+            <input type="number" id="num-a" placeholder="Число A">
+            <input type="number" id="num-b" placeholder="Число B">
+        </div>
+
+        <div class="actions">
+            <button id="btn-add">Додати (+)</button>
+            <button id="btn-sub">Відняти (-)</button>
+            <button id="btn-mult">Помножити (*)</button>
+            <button id="btn-div">Поділити (/)</button>
+        </div>
+
+        <div class="result-box">
+            Результат: <span id="result">-</span>
+        </div>
     </div>
 
     <script src="script.js"></script>

@@ -1,62 +1,84 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f6f9;
-    color: #333;
-    margin: 0;
-    padding: 40px 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    margin: 0;
 }
 
-.container {
-    max-width: 1000px;
-    width: 100%;
-}
-
-h1 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-}
-
-.students-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.student-card {
-    background: white;
-    padding: 25px;
+.calculator-card {
+    background: #ffffff;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border-top: 5px solid #3498db; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
 }
 
-.student-card.excellent { border-top-color: #2ecc71; } 
-.student-card.bad { border-top-color: #e74c3c; } 
-.student-card.average { border-top-color: #f1c40f; } 
-.student-name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
+h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    margin-bottom: 25px;
 }
 
-.student-info p {
-    margin: 8px 0;
-    color: #555;
+.input-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.summary-badge {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 8px 15px;
-    border-radius: 20px;
+.input-group input:focus {
+    border-color: #3498db;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+button {
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:active {
+    transform: scale(0.95); 
+}
+
+.result-box {
+    font-size: 20px;
+    color: #333;
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 8px;
     font-weight: bold;
-    font-size: 14px;
 }
 
-.excellent .summary-badge { background-color: #d5f5e3; color: #1e8449; }
-.average .summary-badge { background-color: #fcf3cf; color: #b9770e; }
-.bad .summary-badge { background-color: #fadbd8; color: #b03a2e; }
+#result {
+    color: #e74c3c; 
+    margin-left: 10px;
+}
