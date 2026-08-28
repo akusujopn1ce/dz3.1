@@ -1,56 +1,30 @@
-class Calculator {
-    add(a, b) {
-        return a + b;
+class Coach {
+    constructor(name, specialization, rating) {
+        this.name = name;
+        this.specialization = specialization;
+        this.rating = rating;
     }
 
-    subtract(a, b) {
-        return a - b;
-    }
-
-    multiply(a, b) {
-        return a * b;
-    }
-
-    divide(a, b) {
-        if (b === 0) {
-            return "Помилка (ділення на 0)";
-        }
-        return a / b;
+    displayInfo() {
+        const infoString = `Coach: ${this.name}, Specialization: ${this.specialization}, Rating: ${this.rating}`;
+        
+        console.log(infoString);
+        
+        return infoString;
     }
 }
 
-const calc = new Calculator();
+const coach1 = new Coach('John Doe', 'Fitness', 4.7);
+const coach2 = new Coach('Alice Smith', 'Yoga', 4.9);
 
-const inputA = document.getElementById('num-a');
-const inputB = document.getElementById('num-b');
-const resultDisplay = document.getElementById('result');
+const listContainer = document.getElementById('coaches-list');
+const coaches = [coach1, coach2];
 
-function getNumbers() {
-    const a = Number(inputA.value) || 0;
-    const b = Number(inputB.value) || 0;
-    return { a, b };
-}
-
-function showResult(value) {
-    resultDisplay.textContent = value;
-}
-
-document.getElementById('btn-add').addEventListener('click', () => {
-    const nums = getNumbers();
-    showResult(calc.add(nums.a, nums.b));
-});
-
-document.getElementById('btn-sub').addEventListener('click', () => {
-    const nums = getNumbers();
-    showResult(calc.subtract(nums.a, nums.b));
-});
-
-document.getElementById('btn-mult').addEventListener('click', () => {
-    const nums = getNumbers();
-    showResult(calc.multiply(nums.a, nums.b));
-});
-
-document.getElementById('btn-div').addEventListener('click', () => {
-    const nums = getNumbers();
-    showResult(calc.divide(nums.a, nums.b));
+coaches.forEach(coach => {
+    const card = document.createElement('div');
+    card.className = 'coach-card';
+    
+    card.textContent = coach.displayInfo();
+    
+    listContainer.appendChild(card);
 });
