@@ -1,99 +1,26 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e0f7fa; 
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh;  
     margin: 0;
+    background-color: #ffffff;
 }
 
-.bank-card {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 350px;
+.timer-container {
     text-align: center;
 }
 
-h2 {
-    margin-top: 0;
-    color: #37474f;
-    font-size: 24px;
-}
-
-.balance-display {
-    background-color: #f1f8e9;
-    color: #2e7d32;
-    font-size: 40px;
-    font-weight: bold;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.currency {
-    font-size: 24px;
-    margin-right: 5px;
-}
-
-.input-section input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px 15px;
-    font-size: 16px;
-    border: 2px solid #b0bec5;
-    border-radius: 8px;
+h1 {
+    font-size: 5rem; 
+    color: #000000;
     margin-bottom: 20px;
-    outline: none;
-    transition: border-color 0.3s;
+    letter-spacing: 2px;
 }
 
-.input-section input:focus {
-    border-color: #00acc1;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.btn {
-    flex: 1;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.1s, opacity 0.3s;
-}
-
-.btn:active {
-    transform: scale(0.95);
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
-
-.deposit {
-    background-color: #43a047; 
-}
-
-.withdraw {
-    background-color: #e53935;
-}
-
-.message-box {
-    font-size: 14px;
-    min-height: 20px;
-    color: #e53935; 
-    font-weight: 500;
+#timer-display {
+    font-size: 8rem; 
+    color: #000000;
+    font-weight: 400;
 }
