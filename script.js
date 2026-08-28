@@ -1,55 +1,73 @@
-const slides = document.querySelectorAll('.slide');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const dotsContainer = document.getElementById('dots-container');
+const form = document.querySelector('.js--form');
+const input = document.querySelector('.js--form__input');
+const todosWrapper = document.querySelector('.js--todos-wrapper');
 
-let currentIndex = 0;
+let tasks = JSON.parse(localStorage.getItem('todo-tasks')) || [];
 
-slides.forEach((slide, index) => {
-    const dot = document.createElement('div');
-    dot.classList.add('dot');
-    
-    dot.addEventListener('click', () => {
-        goToSlide(index);
-    });
-    
-    dotsContainer.appendChild(dot);
-});
-
-const dots = document.querySelectorAll('.dot');
-
-function goToSlide(index) {
-    slides[currentIndex].classList.remove('active');
-    dots[currentIndex].classList.remove('active');
-    
-    currentIndex = index;
-    
-    slides[currentIndex].classList.add('active');
-    dots[currentIndex].classList.add('active');
-    
-    if (currentIndex === 0) {
-        prevBtn.style.visibility = 'hidden';
-    } else {
-        prevBtn.style.visibility = 'visible';
-    }
-    
-    if (currentIndex === slides.length - 1) {
-        nextBtn.style.visibility = 'hidden';
-    } else {
-        nextBtn.style.visibility = 'visible';
-    }
+function saveToLocalStorage() {
+    localStorage.setItem('todo-tasks', JSON.stringify(tasks));
 }
 
-prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-        goToSlide(currentIndex - 1);
-    }
-});
+function renderTasks() {
+    todosWrapper.innerHTML = '';
 
-nextBtn.addEventListener('click', () => {
-    if (currentIndex < slides.length - 1) {
-        goToSlide(currentIndex + 1);
-    }
-});
+    tasks.forEach(task => {
+        const cssClass = task.completed ? 'todo-item todo-item--checked' : 'todo-item';
+        
+        const taskHTML = `
+            <li class="${cssClass}" data-id="${task.id}">
+                <input type="checkbox" class="js--check" ${task.completed ? 'checked' : ''}>
+                <span class="todo-item__description">${task.text}</span>
+                <button class="todo-item__delete js--delete">Видалити</button>
+            </li>
+        `;
+        
+        todosWrapper.insertAdjacentHTML('beforeend', taskHTML);
+    });
+}
 
-goToSlide(0);
+function addTask(event) {
+    event.preventDefault(); 
+    
+    const taskText = input.value.trim();
+    if (taskText === '') return;
+
+    const newTask = {
+        id: Date.now(), 
+        text: taskText,
+        completed: false
+    };
+
+    tasks.push(newTask); 
+    saveToLocalStorage(); 
+    renderTasks(); 
+    
+    input.value = ''; 
+    input.focus();
+}
+
+function handleTaskAction(event) {
+    const parentNode = event.target.closest('.todo-item');
+    if (!parentNode) return;
+    
+    const taskId = Number(parentNode.dataset.id);
+
+    if (event.target.classList.contains('js--delete')) {
+        tasks = tasks.filter(task => task.id !== taskId);
+    }
+
+    if (event.target.classList.contains('js--check')) {
+        const task = tasks.find(task => task.id === taskId);
+        if (task) {
+            task.completed = !task.completed;
+        }
+    }
+
+    saveToLocalStorage(); 
+    renderTasks(); 
+}
+
+form.addEventListener('submit', addTask);
+todosWrapper.addEventListener('click', handleTaskAction);
+
+renderTasks();
