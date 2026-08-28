@@ -1,46 +1,55 @@
-const form = document.getElementById('help-form');
+const slides = document.querySelectorAll('.slide');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const dotsContainer = document.getElementById('dots-container');
 
-const regexPatterns = {
-    name: /^(?!\s*$).+/, 
-    message: /^[\s\S]{5,}$/, 
-    phone: /^\+380\d{9}$/, 
-    email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/
-};
+let currentIndex = 0;
 
-function validateInput(inputId, errorId, regex) {
-    const input = document.getElementById(inputId);
-    const errorMsg = document.getElementById(errorId);
-    const value = input.value.trim(); 
+slides.forEach((slide, index) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    
+    dot.addEventListener('click', () => {
+        goToSlide(index);
+    });
+    
+    dotsContainer.appendChild(dot);
+});
 
-    if (regex.test(value)) {
-        input.classList.remove('invalid');
-        errorMsg.classList.remove('active');
-        return true;
+const dots = document.querySelectorAll('.dot');
+
+function goToSlide(index) {
+    slides[currentIndex].classList.remove('active');
+    dots[currentIndex].classList.remove('active');
+    
+    currentIndex = index;
+    
+    slides[currentIndex].classList.add('active');
+    dots[currentIndex].classList.add('active');
+    
+    if (currentIndex === 0) {
+        prevBtn.style.visibility = 'hidden';
     } else {
-        input.classList.add('invalid');
-        errorMsg.classList.add('active');
-        return false;
+        prevBtn.style.visibility = 'visible';
+    }
+    
+    if (currentIndex === slides.length - 1) {
+        nextBtn.style.visibility = 'hidden';
+    } else {
+        nextBtn.style.visibility = 'visible';
     }
 }
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const isNameValid = validateInput('name', 'error-name', regexPatterns.name);
-    const isMessageValid = validateInput('message', 'error-message', regexPatterns.message);
-    const isPhoneValid = validateInput('phone', 'error-phone', regexPatterns.phone);
-    const isEmailValid = validateInput('email', 'error-email', regexPatterns.email);
-
-    if (isNameValid && isMessageValid && isPhoneValid && isEmailValid) {
-        const formData = {
-            name: document.getElementById('name').value.trim(),
-            message: document.getElementById('message').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            email: document.getElementById('email').value.trim()
-        };
-
-        console.log("Дані з форми успішно відправлені:", formData);
-        
-        form.reset();
+prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+        goToSlide(currentIndex - 1);
     }
 });
+
+nextBtn.addEventListener('click', () => {
+    if (currentIndex < slides.length - 1) {
+        goToSlide(currentIndex + 1);
+    }
+});
+
+goToSlide(0);

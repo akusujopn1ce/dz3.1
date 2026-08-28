@@ -1,45 +1,60 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма зворотного зв'язку</title>
+    <title>Слайдер Знаменитостей</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="contact-form">
-        <h2 class="form-title">We would like to help you</h2>
+    <div class="slider-section">
         
-        <form id="help-form">
-            <!-- Поле: Name -->
-            <div class="input-group">
-                <input type="text" id="name" placeholder="Name">
-                <span class="error-msg" id="error-name">Ім'я є обов'язковим полем</span>
+        <div class="slider-container">
+            <button id="prev-btn" class="nav-btn">&#10094;</button>
+
+            <div class="slides-wrapper">
+                
+                <div class="slide active">
+                    <div class="slide-inner">
+                        <img src="images/freeman.png" alt="Морган Фримен">
+                        <div class="slide-info">
+                            <span class="slide-category">АКТЕР, РЕЖИССЕР</span>
+                            <h2 class="slide-title">Морган Фримен</h2>
+                            <p class="slide-desc">Легендарный американский актер, обладатель премии «Оскар». Знаменит своим глубоким, узнаваемым голосом. Известные фильмы: «Побег из Шоушенка», «Семь», «Малышка на миллион».</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-inner">
+                        <img src="images/yorke.png" alt="Том Йорк">
+                        <div class="slide-info">
+                            <span class="slide-category">МУЗЫКАНТ, ВОКАЛИСТ</span>
+                            <h2 class="slide-title">Том Йорк</h2>
+                            <p class="slide-desc">Британский рок-музыкант и композитор, фронтмен культовой группы Radiohead. Его стиль отличается меланхоличностью, использованием фальцета и экспериментальным подходом к звучанию.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-inner">
+                        <img src="images/pitt.png" alt="Брэд Питт">
+                        <div class="slide-info">
+                            <span class="slide-category">АКТЕР, ПРОДЮСЕР</span>
+                            <h2 class="slide-title">Брэд Питт</h2>
+                            <p class="slide-desc">Один из самых популярных американских актеров. Обладатель двух премий «Оскар». Вы точно знаете его по ролям в фильмах «Бойцовский клуб», «Одиннадцать друзей Оушена» и «Однажды в Голливуде».</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Поле: Message -->
-            <div class="input-group">
-                <textarea id="message" placeholder="Message"></textarea>
-                <span class="error-msg" id="error-message">Повідомлення має містити щонайменше 5 символів</span>
-            </div>
-            
-            <h3 class="form-subtitle">HOW TO ANSWER YOU?</h3>
-            
-            <!-- Поле: Phone number -->
-            <div class="input-group">
-                <input type="tel" id="phone" placeholder="Phone number">
-                <span class="error-msg" id="error-phone">Номер телефону має починатися з +380 та містити 13 символів</span>
-            </div>
+            <button id="next-btn" class="nav-btn">&#10095;</button>
+        </div>
 
-            <!-- Поле: Email -->
-            <div class="input-group">
-                <input type="email" id="email" placeholder="Email">
-                <span class="error-msg" id="error-email">Email обов'язково повинен мати @ та крапку</span>
-            </div>
-            
-            <button type="submit" id="submit-btn">Send message</button>
-        </form>
+        <div id="dots-container" class="dots-container"></div>
+
     </div>
 
     <script src="script.js"></script>
