@@ -1,21 +1,14 @@
-const container = document.getElementById('table-container');
+const imgElement = document.getElementById('random-img');
+const btnElement = document.getElementById('change-img-btn');
 
-const table = document.createElement('table');
-
-for (let i = 1; i <= 10; i++) {
-    const row = document.createElement('tr');
-
-    for (let j = 1; j <= 10; j++) {
-        const isHeader = (i === 1 || j === 1);
-        
-        const cell = document.createElement(isHeader ? 'th' : 'td');
-        
-        cell.textContent = i * j;
-
-        row.appendChild(cell);
-    }
+function setRandomImage() {
+    const randomNumber = Math.floor(Math.random() * 9) + 1;
     
-    table.appendChild(row);
+    const imageName = randomNumber + '.jpg';
+    
+    imgElement.src = 'images/' + imageName;
 }
 
-container.appendChild(table);
+setRandomImage();
+
+btnElement.addEventListener('click', setRandomImage);

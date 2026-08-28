@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Динамічна таблиця Піфагора</title>
+    <title>Випадкове зображення</title>
+    <!-- Підключаємо стилі -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>Таблиця Піфагора</h2>
-    <div id="table-container"></div>
+    <h2>Генератор випадкових картинок</h2>
+    
+    <!-- Контейнер для зображення -->
+    <div class="image-container">
+        <!-- Початкове зображення завантажується з папки images -->
+        <img id="random-img" src="images/1.jpg" alt="Випадкове зображення">
+    </div>
 
+    <!-- Кнопка для зміни зображення -->
+    <button id="change-img-btn">Показати інше випадкове зображення</button>
+
+    <!-- Підключаємо скрипт у кінці body -->
     <script src="script.js"></script>
 </body>
 </html>
