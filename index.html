@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo List з jQuery та Bootstrap</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Віджет Погоди</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container mt-5" style="max-width: 700px;">
-        <h1 class="text-center mb-4 text-dark">ToDoList</h1>
-        
-        <form class="form js--form d-flex mb-4 bg-white p-3 rounded shadow-sm">
-            <input type="text" name="value" required class="form-control me-2 js--form__input" placeholder="Введіть нове завдання...">
-            <button type="submit" class="btn btn-success" style="background-color: #0be69d; border: none; color: black;">Додати</button>
-        </form>
 
-        <ul class="list-group js--todos-wrapper">
-        </ul>
-    </div>
-
-    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="taskModalLabel">Ваше завдання</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Сюди за допомогою jQuery ми вставимо текст конкретного завдання -->
-            <p id="modal-task-text">Текст завдання</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
-          </div>
+    <div class="weather-widget">
+        <div class="widget-left">
+            <div class="current-date" id="current-date">-- --, ---- - --</div>
+            <div class="current-time-block">
+                <span class="time-big" id="current-time">--:--</span>
+                <span class="time-ampm" id="current-ampm">--</span>
+            </div>
+            
+            <div class="weather-details">
+                <div>Humidity: <span id="humidity">--</span>%</div>
+                <div>Pressure: <span id="pressure">--</span> hPa</div>
+                <div>Wind: <span id="wind-speed">--</span> km/h <span id="wind-dir"></span></div>
+            </div>
         </div>
-      </div>
+
+        <div class="widget-right">
+            <img id="weather-icon" src="" alt="Weather Icon" style="display: none;">
+            <div class="temp-big"><span id="temp">--</span>°C</div>
+            <div class="feels-like">Feels Like: <span id="feels-like">--</span>°C</div>
+            <div class="description" id="description">--</div>
+            
+            <div class="update-info">
+                <span id="last-update">--:--</span>
+                <button id="refresh-btn" class="refresh-btn">↻</button>
+            </div>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
