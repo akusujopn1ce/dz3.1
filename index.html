@@ -3,15 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Делегування подій</title>
+    <title>Список завдань (To-Do List)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="button-container" class="button-group">
-        <button class="btn">Кнопка 1</button>
-        <button class="btn">Кнопка 2</button>
-        <button class="btn">Кнопка 3</button>
+    <div class="todo-app">
+        <h2>Мій список завдань</h2>
+        
+        <!-- Список завдань (ul) -->
+        <ul id="task-list">
+            <!-- Початкові завдання -->
+            <li>
+                <span>Завдання 1</span> 
+                <button class="delete-btn">Видалити</button>
+            </li>
+            <li>
+                <span>Завдання 2</span> 
+                <button class="delete-btn">Видалити</button>
+            </li>
+            <li>
+                <span>Завдання 3</span> 
+                <button class="delete-btn">Видалити</button>
+            </li>
+        </ul>
+
+        <!-- Блок для додавання нових завдань -->
+        <div class="add-task-container">
+            <input type="text" id="task-input" placeholder="Додати нове завдання">
+            <button id="add-btn">Додати</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
