@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Наші Тренери</title>
+    <title>Банківський Рахунок</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Наші Тренери</h1>
-        <!-- Контейнер, куди JS буде додавати інформацію про тренерів -->
-        <div id="coaches-list"></div>
+    <div class="bank-card">
+        <h2>Мій Рахунок</h2>
+        
+        <div class="balance-display">
+            <span class="currency">$</span>
+            <span id="balance">1000</span>
+        </div>
+
+        <div class="input-section">
+            <input type="number" id="amount-input" placeholder="Введіть суму" min="1">
+        </div>
+
+        <div class="action-buttons">
+            <button id="btn-deposit" class="btn deposit">Поповнити</button>
+            <button id="btn-withdraw" class="btn withdraw">Зняти</button>
+        </div>
+
+        <div id="message-box" class="message-box"></div>
     </div>
 
     <script src="script.js"></script>
