@@ -1,64 +1,115 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSwapiData, clearData, setEndpointParts } from './store';
+import {
+  fetchTodosRequest, addTodoRequest, deleteTodoRequest,
+  toggleTodoRequest, editTodoRequest, clearTodosRequest
+} from './todoSlice';
 import './App.css';
 
 function App() {
-  const [endpoint, setEndpoint] = useState('people/1');
-  
-  const dispatch = useDispatch();
-  const { data, loading, error, endpointParts } = useSelector((state) => state.swapi);
+  const [inputValue, setInputValue] = useState('');
+  const [editId, setEditId] = useState(null);
+  const [editValue, setEditValue] = useState('');
 
-  const handleGetInfo = () => {
-    if (endpoint.trim()) {
-      const parts = endpoint.split('/').filter(part => part.trim() !== '');
-      dispatch(setEndpointParts(parts));
-      
-      dispatch(fetchSwapiData(endpoint.trim()));
+  const dispatch = useDispatch();
+  const { items, loading } = useSelector((state) => state.todos);
+
+  useEffect(() => {
+    dispatch(fetchTodosRequest());
+  }, [dispatch]);
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (inputValue.trim()) {
+      dispatch(addTodoRequest(inputValue.trim()));
+      setInputValue('');
     }
   };
 
-  const handleClear = () => {
-    dispatch(clearData());
-    setEndpoint(''); 
+  const handleSaveEdit = (id) => {
+    if (editValue.trim()) {
+      dispatch(editTodoRequest(id, editValue.trim()));
+    }
+    setEditId(null);
   };
 
   return (
-    <div className="container">
-      <h1 className="title">SWAPI</h1>
+    <div className="app-container">
+      <div className="todo-card">
+        <h1 className="title">Redux Saga TODO</h1>
 
-      <div className="input-group">
-        <span className="input-prefix">https://swapi.py4e.com/api/</span>
-        <input
-          type="text"
-          className="input-field"
-          value={endpoint}
-          onChange={(e) => setEndpoint(e.target.value)}
-          placeholder="people/1"
-        />
-        <button className="btn-get" onClick={handleGetInfo}>Get info</button>
-      </div>
+        <form onSubmit={handleAdd} className="add-form">
+          <input
+            type="text"
+            placeholder="Нове завдання..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            disabled={loading}
+          />
+          <button type="submit" disabled={loading || !inputValue.trim()}>
+            {loading ? '...' : 'Додати'}
+          </button>
+        </form>
 
-      <div className="content-area">
-        {loading && <div className="status">Завантаження...</div>}
-        {error && <div className="status error">Помилка: {error}</div>}
-        
-        {!loading && !error && data && (
-          <div className="data-display">
-            <div className="badges">
-              {endpointParts.map((part, index) => (
-                <span key={index} className="badge">{part}</span>
-              ))}
-            </div>
-            <pre className="json-output">
-              {JSON.stringify(data, null, 2)}
-            </pre>
-          </div>
-        )}
-      </div>
+        <ul className="todo-list">
+          {items.map((todo) => (
+            <li key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+              
+              {editId === todo.id ? (
+                <div className="edit-mode">
+                  <input
+                    type="text"
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    autoFocus
+                  />
+                  <button className="btn-success" onClick={() => handleSaveEdit(todo.id)}>Зберегти</button>
+                  <button className="btn-secondary" onClick={() => setEditId(null)}>Скасувати</button>
+                </div>
+              ) : (
+                <>
+                  <div className="item-content">
+                    <input
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={() => dispatch(toggleTodoRequest(todo.id))}
+                    />
+                    <span className="text">{todo.text}</span>
+                  </div>
+                  <div className="item-actions">
+                    <button 
+                      className="btn-edit"
+                      onClick={() => {
+                        setEditId(todo.id);
+                        setEditValue(todo.text);
+                      }}
+                    >
+                      Редагувати
+                    </button>
+                    <button 
+                      className="btn-danger"
+                      onClick={() => dispatch(deleteTodoRequest(todo.id))}
+                    >
+                      Вилучити
+                    </button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+          {items.length === 0 && !loading && <p className="empty-msg">Список порожній</p>}
+        </ul>
 
-      <div className="footer">
-        <button className="btn-clear" onClick={handleClear}>Clear</button>
+        <div className="footer">
+          <span className="status">{loading ? '⏳ Обробка...' : `Всього: ${items.length}`}</span>
+          <button 
+            className="btn-danger-outline" 
+            onClick={() => dispatch(clearTodosRequest())}
+            disabled={items.length === 0 || loading}
+          >
+            Очистити все
+          </button>
+        </div>
       </div>
     </div>
   );

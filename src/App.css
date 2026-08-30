@@ -1,117 +1,150 @@
 body {
   margin: 0;
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #fff;
-  color: #212529;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
+.app-container {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+}
+
+.todo-card {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 2rem;
 }
 
 .title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
-.input-group {
+.add-form {
   display: flex;
-  margin-bottom: 20px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  overflow: hidden;
+  gap: 10px;
+  margin-bottom: 2rem;
 }
 
-.input-prefix {
-  background-color: #e9ecef;
-  padding: 10px 15px;
-  color: #495057;
-  border-right: 1px solid #ced4da;
-  display: flex;
-  align-items: center;
-}
-
-.input-field {
+input[type="text"] {
   flex: 1;
-  border: none;
   padding: 10px 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   font-size: 1rem;
   outline: none;
 }
 
-.btn-get {
-  background-color: #6c757d;
-  color: white;
+input[type="text"]:focus {
+  border-color: #3b82f6;
+}
+
+button {
+  padding: 10px 15px;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.btn-get:hover {
-  background-color: #5a6268;
-}
-
-.content-area {
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  min-height: 200px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.status {
-  color: #6c757d;
-  font-size: 1.1rem;
-}
-
-.status.error {
-  color: #dc3545;
-}
-
-.badges {
-  margin-bottom: 15px;
-}
-
-.badge {
-  display: inline-block;
-  background-color: #6c757d;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  margin-right: 5px;
-}
-
-.json-output {
-  background-color: transparent;
-  border: none;
-  margin: 0;
+  border-radius: 6px;
   font-size: 0.95rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  color: #24292e;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  transition: opacity 0.2s;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.todo-item.completed .text {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.edit-mode {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit { background-color: #f59e0b; }
+.btn-danger { background-color: #ef4444; }
+.btn-success { background-color: #10b981; }
+.btn-secondary { background-color: #6b7280; }
+
+.btn-danger-outline {
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+  background-color: #fef2f2;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #6b7280;
+  padding: 2rem 0;
 }
 
 .footer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
 }
 
-.btn-clear {
-  background-color: #ffc107;
-  color: #212529;
-  border: 1px solid #ffc107;
-  padding: 8px 20px;
-  border-radius: 4px;
-  cursor: pointer;
+.status {
   font-weight: 500;
-}
-
-.btn-clear:hover {
-  background-color: #e0a800;
-  border-color: #d39e00;
+  color: #4b5563;
 }
