@@ -1,103 +1,144 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import './style.css';
+import React, { useState, createContext, useContext } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import ErrorBoundary from './ErrorBoundary';
+import './App.css';
 
-const initialEmojis = [
-  { id: 1, symbol: '😃', count: 0 },
-  { id: 2, symbol: '😊', count: 0 },
-  { id: 3, symbol: '😎', count: 0 },
-  { id: 4, symbol: '🤩', count: 0 },
-  { id: 5, symbol: '😍', count: 0 },
-];
+// 1. Створюємо контекст для теми
+const ThemeContext = createContext();
 
-const EmojiCard = React.memo(({ emoji, onVote }) => {
-  console.log(`Рендер картки: ${emoji.symbol}`); 
+// --- СТОРІНКИ ДОДАТКУ ---
+
+const Home = () => {
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState('');
   
-  return (
-    <div className="emoji-card" onClick={() => onVote(emoji.id)}>
-      <span className="emoji-icon">{emoji.symbol}</span>
-      <span className="emoji-count">{emoji.count}</span>
-    </div>
-  );
-});
+  // Додаємо стан для краш-тесту
+  const [shouldCrash, setShouldCrash] = useState(false);
 
-const Results = ({ winner }) => {
-  if (!winner) return null;
+  // Error Boundary ловить помилки тільки під час рендеру. 
+  // Тому ми кидаємо помилку тут, якщо state змінився.
+  if (shouldCrash) {
+    throw new Error("Це штучна помилка для перевірки Error Boundary!");
+  }
+
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setTasks([...tasks, { id: Date.now(), text: input }]);
+    setInput('');
+  };
+
+  // ФУНКЦІЯ ВИДАЛЕННЯ
+  const handleDeleteTask = (id) => {
+    setTasks(tasks.filter(task => task.id !== id));
+  };
+
+  const triggerError = () => {
+    // Змінюємо стан, що викличе перерендер і, як наслідок, помилку
+    setShouldCrash(true); 
+  };
 
   return (
-    <div className="results-section">
-      <h2 className="winner-title">Результати голосування:</h2>
-      <h3>Переможець:</h3>
-      <div className="winner-emoji">{winner.symbol}</div>
-      <p className="emoji-count">{winner.text}</p>
+    <div className="page-container">
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>TODO Список</h2>
+      <form onSubmit={handleAddTask} className="todo-form">
+        <input 
+          type="text" 
+          className="todo-input"
+          value={input} 
+          onChange={(e) => setInput(e.target.value)} 
+          placeholder="Що потрібно зробити?" 
+        />
+        <button type="submit" className="btn btn-primary">Додати</button>
+      </form>
+      
+      {/* Оновлений список з кнопками видалення */}
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        {tasks.map(task => (
+          <li key={task.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', marginBottom: '10px', background: 'var(--bg-color)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+            <span>{task.text}</span>
+            <button 
+              onClick={() => handleDeleteTask(task.id)}
+              style={{ background: '#ef4444', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+            >
+              Видалити
+            </button>
+          </li>
+        ))}
+      </ul>
+      {tasks.length === 0 && <p style={{ textAlign: 'center', color: 'gray' }}>Список порожній. Додайте нове завдання!</p>}
+
+      <hr style={{ margin: '30px 0', opacity: 0.2 }} />
+      <button onClick={triggerError} className="btn" style={{ background: '#ef4444', color: 'white', width: '100%' }}>
+        💥 Зламати додаток (Тест помилки)
+      </button>
     </div>
   );
 };
 
-function App() {
-  const [emojis, setEmojis] = useState(() => {
-    const savedData = localStorage.getItem('emojiVotes');
-    return savedData ? JSON.parse(savedData) : initialEmojis;
-  });
+const Contacts = () => (
+  <div className="page-container">
+    <h2>Контакти</h2>
+    <p>Зв'яжіться зі мною будь-яким зручним способом:</p>
+    <ul>
+      <li><strong>Email:</strong> frontend.dev@example.com</li>
+      <li><strong>Телефон:</strong> +38 (099) 123-45-67</li>
+      <li><strong>Telegram:</strong> @react_developer</li>
+    </ul>
+  </div>
+);
 
-  const [showResults, setShowResults] = useState(false);
+const About = () => (
+  <div className="page-container">
+    <h2>Про мене</h2>
+    <p>Привіт! Я розробник, який активно вивчає React, створює SPA додатки та обожнює чистий код.</p>
+    <p>Цей проєкт демонструє роботу з React Router, Context API для тем та Error Boundaries.</p>
+  </div>
+);
 
-  useEffect(() => {
-    localStorage.setItem('emojiVotes', JSON.stringify(emojis));
-  }, [emojis]);
-
-  const handleVote = useCallback((id) => {
-    setEmojis((prevEmojis) =>
-      prevEmojis.map((emoji) =>
-        emoji.id === id ? { ...emoji, count: emoji.count + 1 } : emoji
-      )
-    );
-    setShowResults(false); 
-  }, []);
-
-  const handleShowResults = () => setShowResults(true);
-
-  const handleClearResults = () => {
-    setEmojis(initialEmojis);
-    setShowResults(false);
-    localStorage.removeItem('emojiVotes');
-  };
-
-  const winner = useMemo(() => {
-    if (!showResults) return null;
-    
-    const maxVotes = Math.max(...emojis.map(e => e.count));
-    if (maxVotes === 0) return { symbol: '🤷‍♂️', text: 'Голосів ще немає!' };
-    
-    const winningEmoji = emojis.find(e => e.count === maxVotes);
-    return { symbol: winningEmoji.symbol, text: `Кількість голосів: ${maxVotes}` };
-  }, [emojis, showResults]);
+// --- ХЕДЕР ---
+const Header = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div className="voting-container">
-      <h1 className="title">Голосування за найкращий смайлик</h1>
+    <header className="header">
+      <nav className="nav-links">
+        <Link to="/">Головна</Link>
+        <Link to="/contacts">Контакти</Link>
+        <Link to="/about">Про мене</Link>
+      </nav>
+      <button onClick={toggleTheme} className="btn btn-theme">
+        {theme === 'light' ? '🌙 Темна' : '☀️ Світла'} тема
+      </button>
+    </header>
+  );
+};
 
-      <div className="emoji-grid">
-        {emojis.map((emoji) => (
-          <EmojiCard 
-            key={emoji.id} 
-            emoji={emoji} 
-            onVote={handleVote} 
-          />
-        ))}
-      </div>
+// --- ГОЛОВНИЙ КОМПОНЕНТ APP ---
+export default function App() {
+  const [theme, setTheme] = useState('light');
 
-      <div className="button-group">
-        <button className="btn btn-primary" onClick={handleShowResults}>
-          Показати результати
-        </button>
-        <button className="btn btn-danger" onClick={handleClearResults}>
-          Очистити результати
-        </button>
-      </div>
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
 
-      <Results winner={winner} />
-    </div>
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <BrowserRouter>
+        <Header />
+        
+        {/* Обертаємо наші маршрути у запобіжник помилок */}
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </ErrorBoundary>
+
+      </BrowserRouter>
+    </ThemeContext.Provider>
   );
 }
-
-export default App;
