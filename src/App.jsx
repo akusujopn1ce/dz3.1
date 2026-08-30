@@ -1,50 +1,64 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo } from './store';
+import { fetchSwapiData, clearData, setEndpointParts } from './store';
 import './App.css';
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
+  const [endpoint, setEndpoint] = useState('people/1');
   
-  const todos = useSelector((state) => state.todos.items);
   const dispatch = useDispatch();
+  const { data, loading, error, endpointParts } = useSelector((state) => state.swapi);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      dispatch(addTodo(inputValue.trim()));
-      setInputValue(''); 
+  const handleGetInfo = () => {
+    if (endpoint.trim()) {
+      const parts = endpoint.split('/').filter(part => part.trim() !== '');
+      dispatch(setEndpointParts(parts));
+      
+      dispatch(fetchSwapiData(endpoint.trim()));
     }
   };
 
+  const handleClear = () => {
+    dispatch(clearData());
+    setEndpoint(''); 
+  };
+
   return (
-    <div className="app-container">
-      <div className="todo-wrapper">
-        <h1 className="title">TODO</h1>
-        
-        <form onSubmit={handleSubmit} className="todo-form">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="todo-input"
-          />
-          <button type="submit" className="todo-btn">Добавить</button>
-        </form>
+    <div className="container">
+      <h1 className="title">SWAPI</h1>
 
-        <h2 className="subtitle">TODOS</h2>
-        
-        <ul className="todo-list">
-          {todos.map((todo, index) => (
-            <li key={index} className="todo-item">
-              {todo}
-            </li>
-          ))}
-        </ul>
+      <div className="input-group">
+        <span className="input-prefix">https://swapi.py4e.com/api/</span>
+        <input
+          type="text"
+          className="input-field"
+          value={endpoint}
+          onChange={(e) => setEndpoint(e.target.value)}
+          placeholder="people/1"
+        />
+        <button className="btn-get" onClick={handleGetInfo}>Get info</button>
+      </div>
 
-        <div className="todo-footer">
-          Всього: {todos.length}
-        </div>
+      <div className="content-area">
+        {loading && <div className="status">Завантаження...</div>}
+        {error && <div className="status error">Помилка: {error}</div>}
+        
+        {!loading && !error && data && (
+          <div className="data-display">
+            <div className="badges">
+              {endpointParts.map((part, index) => (
+                <span key={index} className="badge">{part}</span>
+              ))}
+            </div>
+            <pre className="json-output">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          </div>
+        )}
+      </div>
+
+      <div className="footer">
+        <button className="btn-clear" onClick={handleClear}>Clear</button>
       </div>
     </div>
   );
