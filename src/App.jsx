@@ -1,58 +1,66 @@
 import React, { useState, createContext, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import ErrorBoundary from './ErrorBoundary';
 import './App.css';
 
-// 1. Створюємо контекст для теми
 const ThemeContext = createContext();
 
 // --- СТОРІНКИ ДОДАТКУ ---
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
-  const [input, setInput] = useState('');
-  
-  // Додаємо стан для краш-тесту
   const [shouldCrash, setShouldCrash] = useState(false);
 
-  // Error Boundary ловить помилки тільки під час рендеру. 
-  // Тому ми кидаємо помилку тут, якщо state змінився.
   if (shouldCrash) {
     throw new Error("Це штучна помилка для перевірки Error Boundary!");
   }
 
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-    setTasks([...tasks, { id: Date.now(), text: input }]);
-    setInput('');
-  };
+  // Схема валідації за допомогою Yup
+  const TaskSchema = Yup.object().shape({
+    taskText: Yup.string()
+      .min(5, 'Мінімум 5 символів!') // Ось наша обов'язкова умова
+      .required('Поле не може бути порожнім!'),
+  });
 
-  // ФУНКЦІЯ ВИДАЛЕННЯ
   const handleDeleteTask = (id) => {
     setTasks(tasks.filter(task => task.id !== id));
   };
 
   const triggerError = () => {
-    // Змінюємо стан, що викличе перерендер і, як наслідок, помилку
     setShouldCrash(true); 
   };
 
   return (
     <div className="page-container">
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>TODO Список</h2>
-      <form onSubmit={handleAddTask} className="todo-form">
-        <input 
-          type="text" 
-          className="todo-input"
-          value={input} 
-          onChange={(e) => setInput(e.target.value)} 
-          placeholder="Що потрібно зробити?" 
-        />
-        <button type="submit" className="btn btn-primary">Додати</button>
-      </form>
       
-      {/* Оновлений список з кнопками видалення */}
+      {/* Підключаємо Formik */}
+      <Formik
+        initialValues={{ taskText: '' }}
+        validationSchema={TaskSchema}
+        onSubmit={(values, { resetForm }) => {
+          // values.taskText містить текст з інпута
+          setTasks([...tasks, { id: Date.now(), text: values.taskText }]);
+          resetForm(); // Очищаємо форму після додавання
+        }}
+      >
+        {/* Форма Formik */}
+        <Form style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '20px' }}>
+          <div className="todo-form" style={{ margin: 0 }}>
+            <Field 
+              name="taskText" 
+              className="todo-input" 
+              placeholder="Що потрібно зробити?" 
+            />
+            <button type="submit" className="btn btn-primary">Додати</button>
+          </div>
+          {/* Повідомлення про помилку з'явиться тут, якщо валідація не пройде */}
+          <ErrorMessage name="taskText" component="div" style={{ color: '#ef4444', fontSize: '0.9rem', paddingLeft: '5px' }} />
+        </Form>
+      </Formik>
+      
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {tasks.map(task => (
           <li key={task.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', marginBottom: '10px', background: 'var(--bg-color)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
@@ -128,8 +136,6 @@ export default function App() {
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <BrowserRouter>
         <Header />
-        
-        {/* Обертаємо наші маршрути у запобіжник помилок */}
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -137,7 +143,6 @@ export default function App() {
             <Route path="/about" element={<About />} />
           </Routes>
         </ErrorBoundary>
-
       </BrowserRouter>
     </ThemeContext.Provider>
   );
