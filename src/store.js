@@ -1,22 +1,21 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: { value: 0 },
+const todoSlice = createSlice({
+  name: 'todos',
+  initialState: {
+    items: ['Redux', 'React', 'JS'] 
+  },
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
+    addTodo: (state, action) => {
+      state.items.push(action.payload);
     }
   }
 });
 
-export const { increment, decrement } = counterSlice.actions;
+export const { addTodo } = todoSlice.actions;
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer
+    todos: todoSlice.reducer
   }
 });

@@ -1,5 +1,5 @@
 {
-  "name": "redux-counter",
+  "name": "redux-todo-simple",
   "private": true,
   "version": "0.0.0",
   "type": "module",
