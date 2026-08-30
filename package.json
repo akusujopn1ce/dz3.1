@@ -1,5 +1,5 @@
 {
-  "name": "my-spa",
+  "name": "redux-counter",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,11 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "formik": "^2.4.9",
+    "@reduxjs/toolkit": "^2.12.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.3",
-    "yup": "^1.7.1"
+    "react-redux": "^9.3.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
