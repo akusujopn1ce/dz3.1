@@ -1,70 +1,83 @@
 require('./style.scss');
 
-"use strict";
+const API_URL = 'http://localhost:5000/tasks';
+let tasks = []; 
 
-$(document).ready(function () {
-  var tasks = JSON.parse(localStorage.getItem('todo-tasks')) || [];
-
-  function saveToLocalStorage() {
-    localStorage.setItem('todo-tasks', JSON.stringify(tasks));
-  }
-
-  function renderTasks() {
-    var $wrapper = $('.js--todos-wrapper');
-    $wrapper.empty();
+$(document).ready(function() {
     
-    $.each(tasks, function (index, task) {
-      var checkedAttr = task.completed ? 'checked' : '';
-      var completedClass = task.completed ? 'todo-item--checked' : '';
-      
-      var taskHTML = "\n                <li class=\"todo-item list-group-item " + completedClass + "\" data-id=\"" + task.id + "\">\n                    <input class=\"form-check-input js--check me-2\" type=\"checkbox\" " + checkedAttr + ">\n                    <span class=\"todo-item__description\">" + task.text + "</span>\n                    <button class=\"btn btn-success btn-sm js--delete ms-auto\" style=\"background-color: #0be69d; border: none; color: black;\">\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438</button>\n                </li>\n            ";
-      $wrapper.append(taskHTML);
+    async function fetchTasks() {
+        try {
+            const response = await fetch(API_URL);
+            tasks = await response.json();
+            renderTasks();
+        } catch (error) {
+            console.error('Помилка завантаження з БД:', error);
+        }
+    }
+
+    function renderTasks() {
+        const $wrapper = $('.js--todos-wrapper');
+        $wrapper.empty(); 
+
+        $.each(tasks, function(index, task) {
+            const taskId = task._id; 
+            const checkedAttr = task.completed ? 'checked' : '';
+            const completedClass = task.completed ? 'todo-item--checked' : '';
+
+            const taskHTML = `
+                <li class="todo-item list-group-item ${completedClass}" data-id="${taskId}">
+                    <input class="form-check-input js--check me-2" type="checkbox" ${checkedAttr}>
+                    <span class="todo-item__description">${task.text}</span>
+                    <button class="btn btn-success btn-sm js--delete ms-auto" style="background-color: #0be69d; border: none; color: black;">Видалити</button>
+                </li>
+            `;
+            $wrapper.append(taskHTML);
+        });
+    }
+
+    $('.js--form').on('submit', async function(e) {
+        e.preventDefault();
+        const $input = $('.js--form__input');
+        const taskText = $input.val().trim();
+
+        if (taskText === '') return;
+
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: taskText })
+        });
+
+        $input.val('');
+        fetchTasks(); 
+    }); 
+
+    $('.js--todos-wrapper').on('click', '.js--delete', async function() {
+        const taskId = $(this).closest('.todo-item').data('id');
+        
+        await fetch(`${API_URL}/${taskId}`, { method: 'DELETE' });
+        fetchTasks(); 
     });
-  }
 
-  $('.js--form').on('submit', function (e) {
-    e.preventDefault();
-    var $input = $('.js--form__input');
-    var taskText = $input.val().trim();
-    if (taskText === '') return;
-    
-    var newTask = {
-      id: Date.now(),
-      text: taskText,
-      completed: false
-    };
-    
-    tasks.push(newTask);
-    saveToLocalStorage();
-    renderTasks();
-    $input.val('');
-  });
-
-  $('.js--todos-wrapper').on('click', '.js--delete', function () {
-    var taskId = $(this).closest('.todo-item').data('id');
-    tasks = $.grep(tasks, function (task) {
-      return task.id !== taskId;
+    $('.js--todos-wrapper').on('change', '.js--check', async function() {
+        const taskId = $(this).closest('.todo-item').data('id');
+        
+        const task = tasks.find(t => t._id === taskId);
+        
+        await fetch(`${API_URL}/${taskId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completed: !task.completed })
+        });
+        
+        fetchTasks(); 
     });
-    saveToLocalStorage();
-    renderTasks();
-  });
 
-  $('.js--todos-wrapper').on('change', '.js--check', function () {
-    var taskId = $(this).closest('.todo-item').data('id');
-    $.each(tasks, function (index, task) {
-      if (task.id === taskId) {
-        task.completed = !task.completed;
-      }
+    $('.js--todos-wrapper').on('click', '.todo-item__description', function() {
+        const taskText = $(this).text(); 
+        $('#modal-task-text').text(taskText); 
+        $('#taskModal').modal('show'); 
     });
-    saveToLocalStorage();
-    renderTasks();
-  });
 
-  $('.js--todos-wrapper').on('click', '.todo-item__description', function () {
-    var taskText = $(this).text();
-    $('#modal-task-text').text(taskText);
-    $('#taskModal').modal('show');
-  });
-
-  renderTasks();
+    fetchTasks();
 });
